@@ -16,14 +16,21 @@ pipeline {
                 ])
             }
         }
-        stage('stage1') {
+                stage('List Files') {
             steps {
-                echo 'Stage1'
-            }
-        }
-        stage('stage2') {
-            steps {
-                echo 'stage2'
+                script {
+                    def files = []
+                    def count = 0
+                    dir('.') {
+                        files = findFiles(glob: '*')
+                        count = files.size()
+                    }
+                    echo "Total files: ${count}"
+                    echo "Files:"
+                    files.each { f ->
+                        echo "${f.path}"
+                    }
+                }
             }
         }
     }
